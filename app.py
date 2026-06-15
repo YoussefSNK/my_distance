@@ -13,22 +13,20 @@ def html_calculate():
         return render_template('index.html', result=None)
     if request.method == 'POST':
     # Si post, calculer et afficher le résultat
-        eNd = tuple(map(lambda x: int(x), request.form['apoint'].split(',')[0:2]))
-        start = list(map(lambda y: int(y), request.form['bpoint'].split(',')[0:2]))
-        startPoint = start
-        result_tmp = sqrt((eNd[1] - start[1])**2 + (eNd[0] - startPoint[0])**2)
-        EndPoint = eNd
+        end_point = tuple(map(lambda x: int(x), request.form['apoint'].split(',')[0:2]))
+        start_point = list(map(lambda y: int(y), request.form['bpoint'].split(',')[0:2]))
+        result_tmp = sqrt((end_point[1] - start_point[1])**2 + (end_point[0] - start_point[0])**2)
         result =             {
                     'requested_at': datetime.now(),
                     'result_distance': result_tmp,
-                    'start_point': startPoint,
-                    'end_point': EndPoint
+                    'start_point': start_point,
+                    'end_point': end_point
                 }
         distances.append({
                     'requested_at': datetime.now(),
                     'result_distance': result_tmp,
-                    'start_point': startPoint,
-                    'end_point': EndPoint
+                    'start_point': start_point,
+                    'end_point': end_point
                 })    
         return render_template('index.html', result=result)
 
@@ -51,14 +49,14 @@ def already_calculated():
 
 @app.route('/api/distance', methods=['POST', 'GET', 'PUT'])
 def calculate():
-    startPoint = list(map(lambda y: int(y), request.json['start_point'].split(',')[0:2]))
-    EndPoint = tuple(map(lambda x: int(x), request.json['end_point'].split(',')[0:2]))
-    
-    result_tmp = sqrt((EndPoint[1] - startPoint[1])**2 + (EndPoint[0] - startPoint[0])**2)
+    start_point = list(map(lambda y: int(y), request.json['start_point'].split(',')[0:2]))
+    end_point = tuple(map(lambda x: int(x), request.json['end_point'].split(',')[0:2]))
+
+    result_tmp = sqrt((end_point[1] - start_point[1])**2 + (end_point[0] - start_point[0])**2)
     result =             {
                 'requested_at': datetime.now(),
                 'result_distance': result_tmp,
-                'start_point': startPoint,
-                'end_point': EndPoint
+                'start_point': start_point,
+                'end_point': end_point
             }
     return result
