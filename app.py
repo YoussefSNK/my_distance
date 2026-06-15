@@ -51,7 +51,6 @@ def already_calculated():
 
 @app.route('/api/distance', methods=['POST', 'GET', 'PUT'])
 def Calculate():
-    startPoint = request.json['start_point']
     startPoint = list(map(lambda y: int(y), request.json['start_point'].split(',')[0:2]))
     EndPoint = tuple(map(lambda x: int(x), request.json['end_point'].split(',')[0:2]))
     
