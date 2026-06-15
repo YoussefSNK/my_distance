@@ -32,11 +32,11 @@ def html_calculate():
                 })    
         return render_template('index.html', result=result)
 
-@app.route('/api')
+@app.route('/api', methods=['GET'])
 def index():
     return {}
 
-@app.route('/api/distances')
+@app.route('/api/distances', methods=['GET'])
 def already_calculated():
     starttime = datetime.now()
     result = list(map(lambda x: {
