@@ -13,8 +13,8 @@ def html_calculate():
         return render_template('index.html', result=None)
     if request.method == 'POST':
     # Si post, calculer et afficher le résultat
-        end_point = tuple(map(lambda x: int(x), request.form['apoint'].split(',')[0:2]))
-        start_point = list(map(lambda y: int(y), request.form['bpoint'].split(',')[0:2]))
+        end_point = tuple(int(x) for x in request.form['apoint'].split(',')[0:2])
+        start_point = [int(y) for y in request.form['bpoint'].split(',')[0:2]]
         result_tmp = sqrt((end_point[1] - start_point[1])**2 + (end_point[0] - start_point[0])**2)
         result =             {
                     'requested_at': datetime.now(),
@@ -37,20 +37,23 @@ def index():
 @app.route('/api/distances', methods=['GET'])
 def already_calculated():
     starttime = datetime.now()
-    result = list(map(lambda x: {
-                    'requested_at': x['requested_at'],
-                    'result_distance': x['result_distance'],
-                    'start_point': x['start_point'],
-                    'end_point': x['end_point']        
-    }, distances))
+    result = [
+        {
+            'requested_at': x['requested_at'],
+            'result_distance': x['result_distance'],
+            'start_point': x['start_point'],
+            'end_point': x['end_point']
+        }
+        for x in distances
+    ]
     end = datetime.now()
     print(f'result given in {end - starttime} secondes')
     return result
 
 @app.route('/api/distance', methods=['POST', 'GET', 'PUT'])
 def calculate():
-    start_point = list(map(lambda y: int(y), request.json['start_point'].split(',')[0:2]))
-    end_point = tuple(map(lambda x: int(x), request.json['end_point'].split(',')[0:2]))
+    start_point = [int(y) for y in request.json['start_point'].split(',')[0:2]]
+    end_point = tuple(int(x) for x in request.json['end_point'].split(',')[0:2])
 
     result_tmp = sqrt((end_point[1] - start_point[1])**2 + (end_point[0] - start_point[0])**2)
     result =             {
