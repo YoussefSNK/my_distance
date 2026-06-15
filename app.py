@@ -4,7 +4,7 @@ from datetime import datetime
 
 app = Flask('my_distance')
 
-distances = list()
+distances = []
 
 @app.route('/', methods=['GET', 'POST'])
 def html_calculate():
