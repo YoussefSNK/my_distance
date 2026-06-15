@@ -46,8 +46,8 @@ def already_calculated():
                     'end_point': x['end_point']        
     }, distances))
     end = datetime.now()
-    return result
     print(f'result given in {end - starttime} secondes')
+    return result
 
 @app.route('/api/distance', methods=['POST', 'GET', 'PUT'])
 def Calculate():
